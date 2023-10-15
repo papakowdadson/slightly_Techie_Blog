@@ -2,7 +2,7 @@
 A Simple Blog Api With Nodejs and Mysql
 
 ## Requirement
-- Must have XAMMP or Workbench installed
+- Must have XAMPP or Workbench installed
 - Must have nodejs installed
 - Postman for easier testing of `API` (Optional)
   
