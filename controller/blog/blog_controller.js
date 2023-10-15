@@ -28,7 +28,8 @@ const getAllBlog = (req, res) => {
   let sql = "SELECT * FROM blog";
   db.query(sql, (err, results) => {
     if (err) {
-      throw err;
+      console.log('error',err) ;
+      res.status(400).json({message:"error occurred"});
     } else {
         console.log("All blogs", results);
         res.status(200).json(results)
@@ -42,7 +43,8 @@ const getSingleBlog = (req, res) => {
     let sql = `SELECT * FROM blog where id=${req.params.id}` ;
   db.query(sql, (err, result) => {
     if (err) {
-      throw err;
+      console.log('error',err) ;
+      res.status(400).json({message:"error occurred"});
     } else {
         console.log("single blog result", result);
         res.status(200).json(result)
@@ -56,7 +58,8 @@ const updateSingleBlog = (req, res) => {
     let sql = `UPDATE blog SET title = ?, content = ? where id = ?`
     db.query(sql,[req.body.title,req.body.content,req.params.id], (err, result) => {
         if (err) {
-          throw err;
+          console.log('error',err) ;
+          res.status(400).json({message:"error occurred"});
         } else {
             console.log("update blog result", result);
             res.status(200).json({message:"blog updated"})
@@ -71,7 +74,8 @@ const deleteSingleBlog = (req, res) => {
 
   db.query(sql,(err, result) => {
     if (err) {
-      throw err;
+      console.log('error',err) ;
+      res.status(400).json({message:"error occurred"});
     } else {
       console.log("delete result", result);
       res.status(200).json({ message: "Blog deleted" });
