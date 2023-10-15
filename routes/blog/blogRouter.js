@@ -8,7 +8,7 @@ router.get('/:id',getSingleBlog);
 
 router.post('/create/',createBlog);
 
-router.post('/update/:id',updateSingleBlog);
+router.put('/update/:id',updateSingleBlog);
 
 router.delete('/delete/:id',deleteSingleBlog);
 

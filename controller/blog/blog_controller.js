@@ -53,8 +53,8 @@ const getSingleBlog = (req, res) => {
 // update single article
 const updateSingleBlog = (req, res) => {
   console.log('=======updating single Blog======');
-    let sql = `UPDATE blog SET title = '${req.body.title}', content = '${req.body.content}' where id = ${req.params.id}`
-    db.query(sql, (err, result) => {
+    let sql = `UPDATE blog SET title = ?, content = ? where id = ?`
+    db.query(sql,[req.body.title,req.body.content,req.params.id], (err, result) => {
         if (err) {
           throw err;
         } else {
