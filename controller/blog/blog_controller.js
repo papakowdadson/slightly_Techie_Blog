@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 const db = require("../../config/db_config");
 const redisClient = require("../../config/redis_config");
 // create article
@@ -46,14 +47,24 @@ const getSingleBlog = (req, res) => {
   console.log("========Getting Single Blog");
   const { id } = req.params;
   let sql = `SELECT * FROM blog where id=${id}`;
-  db.query(sql, (err, result) => {
+  db.query(sql, async (err, result) => {
     if (err) {
       console.log("error", err);
       res.status(400).json({ message: "error occurred" });
     } else {
-      console.log("single blog result", result);
+      console.log("single blog result", JSON.stringify(result));
+      const redisResult = JSON.stringify(result);
+      // {
+      //   id: RowDataPacket.id,
+      //   image:RowDataPacket.image,
+      //   title:RowDataPacket.title,
+      //   content:RowDataPacket.content,
+      //   author:RowDataPacket.author,
+      //   createdAt:RowDataPacket.createdAt
+      // }
       //setting redis data
-      redisClient.setEx(`${id}`, 1000, result);
+      await redisClient.set(`${id}`, redisResult);
+      await redisClient.expire(`${id}`, 1000);
       res.status(200).json(result);
     }
   });
