@@ -54,14 +54,6 @@ const getSingleBlog = (req, res) => {
     } else {
       console.log("single blog result", JSON.stringify(result));
       const redisResult = JSON.stringify(result);
-      // {
-      //   id: RowDataPacket.id,
-      //   image:RowDataPacket.image,
-      //   title:RowDataPacket.title,
-      //   content:RowDataPacket.content,
-      //   author:RowDataPacket.author,
-      //   createdAt:RowDataPacket.createdAt
-      // }
       //setting redis data
       await redisClient.set(`${id}`, redisResult);
       await redisClient.expire(`${id}`, 1000);

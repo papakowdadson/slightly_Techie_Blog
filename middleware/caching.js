@@ -18,7 +18,7 @@ const cacheById = async (req, res, next) => {
 
   let cachedBlog = await redisClient.get(`${id}`);
   console.log("=========");
-  console.log(cachedBlog)
+  console.log(cachedBlog);
   // console.log(JSON.stringify(cachedBlog, null, 2));
   // const localBlog = JSON.stringify(cachedBlog);
   // console.log(Object.values(localBlog));
