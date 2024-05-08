@@ -97,3 +97,5 @@ url : `http://localhost:5000/blog/prisma/delete/:id` <br>
   
   #### New Scope if necessary
 - `Multer` : Image Storage
+- `Docker`  : Dockerize application
+- `v1` : append v1 after /blog/{v1}/.... to test new endpoints

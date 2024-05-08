@@ -1,9 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 // Create
 
-async function prismaCreateController(req, res) {
+async function prismaCreateBlog(req, res) {
   let blog = {
     image: req.body.image,
     title: req.body.title,
@@ -17,13 +17,13 @@ async function prismaCreateController(req, res) {
 }
 
 // read
-async function prismaReadController(req, res) {
+async function prismaReadBlog(req, res) {
   const blogs = await prisma.blog.findMany();
   res.status(200).json(blogs);
 }
 
 // read
-async function prismaOneController(req, res) {
+async function prismaOneBlog(req, res) {
   const { id } = req.params;
   const blog = await prisma.blog.findUnique({
     where: {
@@ -35,7 +35,7 @@ async function prismaOneController(req, res) {
 }
 
 // delete
-async function prismaDeleteController(req, res) {
+async function prismaDeleteBlog(req, res) {
   const { id } = req.params;
   const blog = await prisma.blog.delete({
     where: {
@@ -46,7 +46,7 @@ async function prismaDeleteController(req, res) {
 }
 
 // update
-async function prismaUpdateController(req, res) {
+async function prismaUpdateBlog(req, res) {
   const { id } = req.params;
   const data = { ...req.body };
 
@@ -59,9 +59,9 @@ async function prismaUpdateController(req, res) {
 }
 
 module.exports = {
-  prismaCreateController,
-  prismaDeleteController,
-  prismaOneController,
-  prismaUpdateController,
-  prismaReadController,
+  prismaCreateBlog,
+  prismaDeleteBlog,
+  prismaOneBlog,
+  prismaUpdateBlog,
+  prismaReadBlog,
 };
