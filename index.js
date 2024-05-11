@@ -17,3 +17,5 @@ app.use("/blog", blogRouter);
 app.listen(port, () => {
   console.log("server running on port:", port);
 });
+
+module.exports = app;

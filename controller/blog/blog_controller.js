@@ -18,10 +18,11 @@ const createBlog = (req, res) => {
 
   db.query(sql, blog, (err, result) => {
     if (err) {
-      throw err;
+      console.error("Error creating blog:", err);
+      res.status(400).json({ message: "error occurred" });
     } else {
       console.log("create blog result", result);
-      res.status(200).json({ message: "Blog created" });
+      res.status(201).json({ message: "Blog created" });
     }
   });
 };
@@ -31,12 +32,10 @@ const getAllBlog = (req, res) => {
   console.log("=========creating blog===========");
   let sql = "SELECT * FROM blog";
   db.query(sql, (err, results) => {
-    if (err) {
-      console.log("error", err);
+    if (err) {      
       res.status(400).json({ message: "error occurred" });
     } else {
-      console.log("All blogs", results);
-
+      // console.log("All blogs", results);
       res.status(200).json(results);
     }
   });

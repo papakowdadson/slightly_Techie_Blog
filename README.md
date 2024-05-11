@@ -94,6 +94,12 @@ url : `http://localhost:5000/blog/prisma/delete/:id` <br>
 - `redis` : Caching
 - `Prisma` : serialization and modelling
 - `Prisma - Client`
+
+### Testing
+Install nyc globally: `npm install -g nyc`
+Install mocha globally: `npm install -g mocha`
+- `Run Test Code`: npm test
+- `Check coverage`: nyc mocha __test__/**/*.test.js
   
   #### New Scope if necessary
 - `Multer` : Image Storage

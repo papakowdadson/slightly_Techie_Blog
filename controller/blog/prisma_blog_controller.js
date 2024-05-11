@@ -11,9 +11,9 @@ async function prismaCreateBlog(req, res) {
     author: req.body.author,
   };
 
-  const user = await prisma.blog.create(blog);
+  const newBlog = await prisma.blog.create(blog);
 
-  res.status(200).json(user);
+  res.status(201).json(newBlog);
 }
 
 // read
