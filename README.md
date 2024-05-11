@@ -103,5 +103,8 @@ Install mocha globally: `npm install -g mocha`
   
   #### New Scope if necessary
 - `Multer` : Image Storage
-- `Docker`  : Dockerize application
+- `Docker`  : Dockerize application:done
+- Dockerize redis server
+- Dockerize sql server
 - `v1` : append v1 after /blog/{v1}/.... to test new endpoints
+- `kafka` : Include logs.
