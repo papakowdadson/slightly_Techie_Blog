@@ -10,6 +10,7 @@ const createBlog = (req, res) => {
     title: req.body.title,
     content: req.body.content,
     author: req.body.author,
+    createdAt: new Date()
   };
 
   console.log("data", blog);
@@ -19,10 +20,10 @@ const createBlog = (req, res) => {
   db.query(sql, blog, (err, result) => {
     if (err) {
       console.error("Error creating blog:", err);
-      res.status(400).json({ message: "error occurred" });
+      res.status(400).json({success:true, message: "error occurred" });
     } else {
       console.log("create blog result", result);
-      res.status(201).json({ message: "Blog created" });
+      res.status(201).json({success:false, message: "Blog created" });
     }
   });
 };
@@ -33,10 +34,10 @@ const getAllBlog = (req, res) => {
   let sql = "SELECT * FROM blog";
   db.query(sql, (err, results) => {
     if (err) {      
-      res.status(400).json({ message: "error occurred" });
+      res.status(400).json({success:false, message: "error occurred" });
     } else {
       // console.log("All blogs", results);
-      res.status(200).json(results);
+      res.status(200).json({success:true,message:"Data successfully fetched",data:results});
     }
   });
 };
@@ -49,14 +50,14 @@ const getSingleBlog = (req, res) => {
   db.query(sql, async (err, result) => {
     if (err) {
       console.log("error", err);
-      res.status(400).json({ message: "error occurred" });
+      res.status(400).json({success:false, message: "error occurred" });
     } else {
       console.log("single blog result", JSON.stringify(result));
       const redisResult = JSON.stringify(result);
       //setting redis data
       await redisClient.set(`${id}`, redisResult);
       await redisClient.expire(`${id}`, 1000);
-      res.status(200).json(result);
+      res.status(200).json({success:true,message:"Data retrieved",data:result});
     }
   });
 };
@@ -74,7 +75,7 @@ const updateSingleBlog = (req, res) => {
         res.status(400).json({ message: "error occurred" });
       } else {
         console.log("update blog result", result);
-        res.status(200).json({ message: "blog updated" });
+        res.status(204).json({success:true, message: "blog updated" });
       }
     }
   );
@@ -88,10 +89,10 @@ const deleteSingleBlog = (req, res) => {
   db.query(sql, (err, result) => {
     if (err) {
       console.log("error", err);
-      res.status(400).json({ message: "error occurred" });
+      res.status(400).json({success:false, message: "error occurred" });
     } else {
       console.log("delete result", result);
-      res.status(200).json({ message: "Blog deleted" });
+      res.status(200).json({success:true, message: "Blog deleted" });
     }
   });
 };
