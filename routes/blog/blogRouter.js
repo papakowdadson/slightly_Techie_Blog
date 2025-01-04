@@ -17,15 +17,15 @@ const {
 const router = express.Router();
 const { cacheById } = require("../../middleware/caching");
 
-router.get("/", getAllBlog);
+router.get("/v0/", getAllBlog);
 
-router.get("/:id", cacheById, getSingleBlog);
+router.get("/v0/:id", cacheById, getSingleBlog);
 
-router.post("/create/", createBlog);
+router.post("/v0/create/", createBlog);
 
-router.put("/update/:id", updateSingleBlog);
+router.put("/v0/update/:id", updateSingleBlog);
 
-router.delete("/delete/:id", deleteSingleBlog);
+router.delete("/v0/delete/:id", deleteSingleBlog);
 
 
 

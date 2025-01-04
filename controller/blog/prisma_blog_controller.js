@@ -11,11 +11,12 @@ async function prismaCreateBlog(req, res) {
   };
 
   try {
-    const newBlog = await prisma.blog.create(blog);
+    const newBlog = await prisma.blog.create({data:blog});
     res.status(201).json({success:true, message:"Blog created successfully",data:newBlog});
   
   } catch (error) {
-    res.status(500).json({success:false, message:"Internal sever error",});
+    console.log("prisma create error",error.message)
+    res.status(500).json({success:false, message:"Internal sever error creating blog",});
 
   }
 }
@@ -26,7 +27,8 @@ async function prismaReadBlog(req, res) {
     const blogs = await prisma.blog.findMany();
     res.status(200).json({success:true,message:"Data retrieved successfully",data:blogs});
   } catch (error) {
-    res.status(500).json({success:false, message:"Internal sever error",});
+    console.log("prisma readblogs error",error.message)
+    res.status(500).json({success:false, message:"Internal sever error getting all blog",});
 
   }
   
@@ -38,14 +40,16 @@ async function prismaOneBlog(req, res) {
   try {
     const blog = await prisma.blog.findUnique({
       where: {
-        id: id,
+        id: parseInt(id),
       },
     });
   
     res.status(200).json({success:true,message:"Data retrieved succesfully",data:blog});
     
   } catch (error) {
-    res.status(500).json({success:false, message:"Internal sever error",});
+    console.log("prisma read a blog error",error.message)
+
+    res.status(500).json({success:false, message:"Internal sever error reading a blog",});
 
   }
   
@@ -57,13 +61,15 @@ async function prismaDeleteBlog(req, res) {
   try {
     const blog = await prisma.blog.delete({
       where: {
-        id: id,
+        id: parseInt(id),
       },
     });
     res.status(200).json({success:true, message:"Data deleted successfully"});
 
   } catch (error) {
-    res.status(500).json({success:false, message:"Internal sever error",});
+    console.log("prisma delete a blog error",error.message)
+
+    res.status(500).json({success:false, message:"Internal sever error deleting blog",});
 
   }
   
@@ -77,12 +83,15 @@ async function prismaUpdateBlog(req, res) {
   try {
     const blog = await prisma.blog.update({
       where: {
-        id: id,
+        id: parseInt(id),
       },
       data: data,
     });
+    res.status(200).json({success:true, message:"Data updated successfully",data:blog});
     
   } catch (error) {
+    console.log("prisma update a blog error",error.message)
+
     res.status(500).json({success:false, message:"Internal sever error",});
     
   }

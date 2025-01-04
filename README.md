@@ -2,7 +2,8 @@
 A Simple Blog Api With Nodejs and Mysql
 
 ## Requirement
-- Must have XAMPP or Workbench installed
+- Must have XAMPP or Workbench installed.
+- Must have redis installed.
 - Must have nodejs installed
 - Postman for easier testing of `API` (Optional)
   
@@ -15,7 +16,7 @@ A Simple Blog Api With Nodejs and Mysql
 ## General EndPoints
 ### `Create Blog` 
 Method : `POST` <br>
-url : `http://localhost:5000/blog/create/` <br>
+url : `http://localhost:5000/blog/{api_version}/create/` <br>
 Body (json) <br>
 `{
     "image":"",
@@ -26,15 +27,15 @@ Body (json) <br>
 
 ### `Get All Blog`
 Method : `GET` <br>
-url : `http://localhost:5000/blog/` <br>
+url : `http://localhost:5000/blog/{api_version}/` <br>
 
 ### `Get Single Blog`
 Method : `GET` <br>
-url : `http://localhost:5000/blog/:id` <br>
+url : `http://localhost:5000/blog/{api_version}/:id` <br>
 
 ### `Update Blog` 
 Method : `PUT` <br>
-url : `http://localhost:5000/blog/update/:id` <br>
+url : `http://localhost:5000/blog/{api_version}/update/:id` <br>
 Body (json) <br>
 `{
     "title":"First post updated",
@@ -44,13 +45,13 @@ Body (json) <br>
 
 ### `Delete Blog` 
 Method : `DELETE` <br>
-url : `http://localhost:5000/blog/delete/:id` <br>
+url : `http://localhost:5000/blog/{api_version}/delete/:id` <br>
 
 
 ## EndPoints With Prisma
 ### `Create Blog` 
 Method : `POST` <br>
-url : `http://localhost:5000/blog/prisma/create/` <br>
+url : `http://localhost:5000/blog/{api_version}/prisma/create/` <br>
 Body (json) <br>
 `{
     "image":"",
@@ -61,15 +62,15 @@ Body (json) <br>
 
 ### `Get All Blog`
 Method : `GET` <br>
-url : `http://localhost:5000/blog/prisma/` <br>
+url : `http://localhost:5000/blog/{api_version}/prisma/` <br>
 
 ### `Get Single Blog`
 Method : `GET` <br>
-url : `http://localhost:5000/blog/prisma/:id` <br>
+url : `http://localhost:5000/blog/{api_version}/prisma/:id` <br>
 
 ### `Update Blog` 
 Method : `PUT` <br>
-url : `http://localhost:5000/blog/prisma/update/:id` <br>
+url : `http://localhost:5000/blog/{api_version}/prisma/update/:id` <br>
 Body (json) <br>
 `{
     "title":"First post updated",
@@ -79,7 +80,7 @@ Body (json) <br>
 
 ### `Delete Blog` 
 Method : `DELETE` <br>
-url : `http://localhost:5000/blog/prisma/delete/:id` <br>
+url : `http://localhost:5000/blog/{api_version}/prisma/delete/:id` <br>
 
 #### New Scope if necessary
 `Image upload` <br>
@@ -103,7 +104,7 @@ Install mocha globally: `npm install -g mocha`
   
   #### New Scope if necessary
 - `Multer` : Image Storage
-- `Docker`  : Dockerize application:done
+- `Docker`  : Dockerize application: done
 - Dockerize redis server
 - Dockerize sql server
 - `v1` : append v1 after /blog/{v1}/.... to test new endpoints

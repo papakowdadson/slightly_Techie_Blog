@@ -20,10 +20,10 @@ const createBlog = (req, res) => {
   db.query(sql, blog, (err, result) => {
     if (err) {
       console.error("Error creating blog:", err);
-      res.status(400).json({success:true, message: "error occurred" });
+      res.status(400).json({success:false, message: "error occurred" });
     } else {
       console.log("create blog result", result);
-      res.status(201).json({success:false, message: "Blog created" });
+      res.status(201).json({success:true, message: "Blog created" });
     }
   });
 };
