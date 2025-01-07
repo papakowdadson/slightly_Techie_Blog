@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const Sentry = require("@sentry/node");
 
 // Create
 async function prismaCreateBlog(req, res) {
@@ -15,7 +16,8 @@ async function prismaCreateBlog(req, res) {
     res.status(201).json({success:true, message:"Blog created successfully",data:newBlog});
   
   } catch (error) {
-    console.log("prisma create error",error.message)
+    console.log("prisma create error",error.message);
+    Sentry.captureException(error);
     res.status(500).json({success:false, message:"Internal sever error creating blog",});
 
   }
@@ -27,7 +29,8 @@ async function prismaReadBlog(req, res) {
     const blogs = await prisma.blog.findMany();
     res.status(200).json({success:true,message:"Data retrieved successfully",data:blogs});
   } catch (error) {
-    console.log("prisma readblogs error",error.message)
+    console.log("prisma readblogs error",error.message);
+    Sentry.captureException(error);
     res.status(500).json({success:false, message:"Internal sever error getting all blog",});
 
   }
@@ -48,7 +51,7 @@ async function prismaOneBlog(req, res) {
     
   } catch (error) {
     console.log("prisma read a blog error",error.message)
-
+    Sentry.captureException(error);
     res.status(500).json({success:false, message:"Internal sever error reading a blog",});
 
   }
@@ -68,7 +71,7 @@ async function prismaDeleteBlog(req, res) {
 
   } catch (error) {
     console.log("prisma delete a blog error",error.message)
-
+    Sentry.captureException(error);
     res.status(500).json({success:false, message:"Internal sever error deleting blog",});
 
   }
@@ -91,7 +94,7 @@ async function prismaUpdateBlog(req, res) {
     
   } catch (error) {
     console.log("prisma update a blog error",error.message)
-
+    Sentry.captureException(error);
     res.status(500).json({success:false, message:"Internal sever error",});
     
   }

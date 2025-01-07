@@ -1,6 +1,7 @@
-const { json } = require("body-parser");
 const db = require("../../config/db_config");
 const redisClient = require("../../config/redis_config");
+const Sentry = require("@sentry/node");
+
 // create article
 const createBlog = (req, res) => {
   console.log("==========creating blog===========");
@@ -13,16 +14,17 @@ const createBlog = (req, res) => {
     createdAt: new Date()
   };
 
-  console.log("data", blog);
+  console.log("==data==", blog);
 
   const sql = "INSERT INTO blog SET ?";
 
   db.query(sql, blog, (err, result) => {
     if (err) {
-      console.error("Error creating blog:", err);
+      console.error("==Error creating blog:==", err);
+      Sentry.captureException(err);
       res.status(400).json({success:false, message: "error occurred" });
     } else {
-      console.log("create blog result", result);
+      console.log("==create blog result==", result);
       res.status(201).json({success:true, message: "Blog created" });
     }
   });
@@ -33,7 +35,9 @@ const getAllBlog = (req, res) => {
   console.log("=========creating blog===========");
   let sql = "SELECT * FROM blog";
   db.query(sql, (err, results) => {
-    if (err) {      
+    if (err) { 
+      console.error("==error==", err);   
+      Sentry.captureException(err);  
       res.status(400).json({success:false, message: "error occurred" });
     } else {
       // console.log("All blogs", results);
@@ -44,12 +48,13 @@ const getAllBlog = (req, res) => {
 
 // get single articles
 const getSingleBlog = (req, res) => {
-  console.log("========Getting Single Blog");
+  console.log("==Getting Single Blog==");
   const { id } = req.params;
   let sql = `SELECT * FROM blog where id=${id}`;
   db.query(sql, async (err, result) => {
     if (err) {
-      console.log("error", err);
+      console.error("==error==", err);
+      Sentry.captureException(err);
       res.status(400).json({success:false, message: "error occurred" });
     } else {
       console.log("single blog result", JSON.stringify(result));
@@ -71,7 +76,8 @@ const updateSingleBlog = (req, res) => {
     [req.body.title, req.body.content, req.params.id],
     (err, result) => {
       if (err) {
-        console.log("error", err);
+        console.error("==error==", err);
+        Sentry.captureException(err);
         res.status(400).json({ message: "error occurred" });
       } else {
         console.log("update blog result", result);
@@ -88,10 +94,11 @@ const deleteSingleBlog = (req, res) => {
 
   db.query(sql, (err, result) => {
     if (err) {
-      console.log("error", err);
+      console.error("==error==", err);
+      Sentry.captureException(err);
       res.status(400).json({success:false, message: "error occurred" });
     } else {
-      console.log("delete result", result);
+      console.log("==deleted result==", result);
       res.status(200).json({success:true, message: "Blog deleted" });
     }
   });
