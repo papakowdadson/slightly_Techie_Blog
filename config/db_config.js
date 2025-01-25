@@ -1,8 +1,9 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const dbConn = mysql.createConnection({
-  host: process.env.HOST||"localhost",
-  user: process.env.USER||"root",
-  password: process.env.PASSWORD||"",
+  host: process.env.DATABASE_HOST || "database",
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  port: 3306,
 });
 
 dbConn.connect((err) => {
@@ -20,8 +21,15 @@ dbConn.query(sql, (err, result) => {
   }
 });
 const useQuery = "USE blog_db";
-const sqlQuery =
-  "CREATE TABLE if NOT EXISTS blog(id INTEGER UNIQUE AUTO_INCREMENT NOT NULL,image VARCHAR(255) DEFAULT '',title VARCHAR(255) NOT NULL,content VARCHAR(255) NOT NULL,author VARCHAR(255) NOT NULL,createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(id))";
+const sqlQuery = `CREATE TABLE if NOT EXISTS blog(
+  id INTEGER UNIQUE AUTO_INCREMENT NOT NULL,
+  image VARCHAR(255) DEFAULT '',
+  title VARCHAR(255) NOT NULL,
+  content VARCHAR(255) NOT NULL,
+  author VARCHAR(255) NOT NULL,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(id)
+  )`;
 
 dbConn.query(useQuery, function (err, result) {
   if (err) {

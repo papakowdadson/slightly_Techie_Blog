@@ -1,0 +1,60 @@
+version: "3.8"
+services:
+  database:
+    build:
+      dockerfile: database.Dockerfile
+    container_name: database
+    env_file:
+      - .env
+    # comment env_file and use environment after cloning
+    # environment:
+    #   MYSQL_ROOT_PASSWORD: root
+    #   MYSQL_DATABASE: database
+    #   MYSQL_USER: user
+    #   MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database:/var/lib/mysql
+    networks:
+      - my-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+  redis:
+    build: 
+      dockerfile: redis.Dockerfile
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - my-net
+  server:
+    build:
+      dockerfile: server.Dockerfile
+    container_name: server
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    # comment env_file and use environment after cloning
+    # environment:
+    #   DATABASE_HOST: database
+    #   DATABASE_USER: user
+    #   DATABASE_PASSWORD: password
+    #   DATABASE_NAME: database
+    #   REDIS_HOST: redis
+    #   REDIS_PORT: 6379
+    networks:
+      - my-net
+
+networks:
+  my-net:
