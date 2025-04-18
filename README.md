@@ -1,6 +1,8 @@
 # slightly_Techie_Blog
 A Simple Blog Api With Nodejs and Mysql
 
+## This is just me building on my ST entry task. Nothing wild
+
 ## Requirement
 - Must have XAMPP or Workbench installed.
 - Must have redis installed.
