@@ -11,7 +11,7 @@ const createBlog = (req, res) => {
     title: req.body.title,
     content: req.body.content,
     author: req.body.author,
-    createdAt: new Date()
+    createdAt: new Date(),
   };
 
   console.log("==data==", blog);
@@ -22,26 +22,32 @@ const createBlog = (req, res) => {
     if (err) {
       console.error("==Error creating blog:==", err);
       Sentry.captureException(err);
-      res.status(400).json({success:false, message: "error occurred" });
+      res.status(400).json({ success: false, message: "error occurred" });
     } else {
       console.log("==create blog result==", result);
-      res.status(201).json({success:true, message: "Blog created" });
+      res.status(201).json({ success: true, message: "Blog created" });
     }
   });
 };
 
 // get all articles
 const getAllBlog = (req, res) => {
-  console.log("=========creating blog===========");
+  console.log("=========Getting all blog===========");
   let sql = "SELECT * FROM blog";
   db.query(sql, (err, results) => {
-    if (err) { 
-      console.error("==error==", err);   
-      Sentry.captureException(err);  
-      res.status(400).json({success:false, message: "error occurred" });
+    if (err) {
+      console.error("==error==", err);
+      Sentry.captureException(err);
+      res.status(400).json({ success: false, message: "error occurred" });
     } else {
       // console.log("All blogs", results);
-      res.status(200).json({success:true,message:"Data successfully fetched",data:results});
+      res
+        .status(200)
+        .json({
+          success: true,
+          message: "Data successfully fetched",
+          data: results,
+        });
     }
   });
 };
@@ -55,14 +61,16 @@ const getSingleBlog = (req, res) => {
     if (err) {
       console.error("==error==", err);
       Sentry.captureException(err);
-      res.status(400).json({success:false, message: "error occurred" });
+      res.status(400).json({ success: false, message: "error occurred" });
     } else {
       console.log("single blog result", JSON.stringify(result));
       const redisResult = JSON.stringify(result);
       //setting redis data
       await redisClient.set(`${id}`, redisResult);
       await redisClient.expire(`${id}`, 1000);
-      res.status(200).json({success:true,message:"Data retrieved",data:result});
+      res
+        .status(200)
+        .json({ success: true, message: "Data retrieved", data: result });
     }
   });
 };
@@ -81,7 +89,7 @@ const updateSingleBlog = (req, res) => {
         res.status(400).json({ message: "error occurred" });
       } else {
         console.log("update blog result", result);
-        res.status(204).json({success:true, message: "blog updated" });
+        res.status(204).json({ success: true, message: "blog updated" });
       }
     }
   );
@@ -96,10 +104,10 @@ const deleteSingleBlog = (req, res) => {
     if (err) {
       console.error("==error==", err);
       Sentry.captureException(err);
-      res.status(400).json({success:false, message: "error occurred" });
+      res.status(400).json({ success: false, message: "error occurred" });
     } else {
       console.log("==deleted result==", result);
-      res.status(200).json({success:true, message: "Blog deleted" });
+      res.status(200).json({ success: true, message: "Blog deleted" });
     }
   });
 };

@@ -11,6 +11,7 @@ A Simple Blog Api With Nodejs and Mysql
 - Clone or fork repo
 - Change directory to slightly_Techie_Blog `cd slightly_Techie_Blog`
 - Install packages `npm install'
+- Create your env file using env.sample
 - Start server `npm start` 
 
 ## General EndPoints
